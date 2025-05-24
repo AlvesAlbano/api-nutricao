@@ -7,7 +7,7 @@
                  [ring/ring-defaults "0.3.2"]
                  [ring/ring-jetty-adapter "1.9.6"]]
   :plugins [[lein-ring "0.12.5"]]
-  :main api-nutricao.handler
+  :main api-nutricao.core
   :ring {:handler api-nutricao.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
