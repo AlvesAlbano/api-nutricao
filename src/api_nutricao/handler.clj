@@ -2,9 +2,10 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ring.middleware.json :refer [wrap-json-response wrap-json-body]]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
             [api-nutricao.exercicios.exercicio-api :as exercicio-api]
-            [api-nutricao.exercicios.nutricao-api :as nutricao-api]))
+            [api-nutricao.exercicios.nutricao-api :as nutricao-api]
+            [cheshire.core :as json]))
 
 (defroutes app-routes
            (GET "/exercicio/:nome-exercicio" [nome-exercicio]
@@ -13,10 +14,20 @@
            (GET "/alimento/:nome" [nome]
              (nutricao-api/buscar-alimento-api nome))
 
-           (route/not-found {:status 404
-                             :headers {"Content-Type" "application/json"}
-                             :body {:erro "Rota não encontrada"}}))
+           (GET "/refeicoes" []
+             (nutricao-api/listar-refeicoes))
+
+           (POST "/refeicoes" request
+             (let [refeicao (:body request)]
+               (nutricao-api/adicionar-refeicao refeicao)
+               {:status 201
+                :headers {"Content-Type" "application/json"}
+                :body {:mensagem "Refeição adicionada com sucesso!"}}))
+
+           (route/not-found "Not Found"))
 
 (def app
-  (wrap-json-response
-    (wrap-defaults app-routes site-defaults)))
+  (-> app-routes
+      (wrap-json-body {:keywords? true})
+      (wrap-json-response)
+      (wrap-defaults (assoc-in site-defaults [:security :anti-forgery] false))))

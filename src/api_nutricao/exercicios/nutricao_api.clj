@@ -14,3 +14,13 @@
     {:status 200
      :headers {"Content-Type" "application/json"}
      :body alimentos}))
+
+(def refeicoes-dia (atom []))
+
+(defn adicionar-refeicao [refeicao]
+  (swap! refeicoes-dia conj refeicao))
+
+(defn listar-refeicoes []
+  {:status 200
+   :headers {"Content-Type" "application/json"}
+   :body (json/generate-string @refeicoes-dia)})
