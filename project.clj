@@ -5,6 +5,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [compojure "1.6.1"]
                  [ring/ring-defaults "0.3.2"]
+                 [ring/ring-json "0.5.1"]
                  [ring/ring-jetty-adapter "1.9.6"]
                  [clj-http "3.13.0"]
                  [cheshire "6.0.0"]]
