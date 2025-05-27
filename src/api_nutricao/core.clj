@@ -4,4 +4,6 @@
   (:gen-class))
 
 (defn -main [& args]
-  (run-jetty app {:port 3000 :join? false}))
+  (run-jetty app {:port 3000 :join? false})
+  (println "http://localhost:3000/exercicio/skiing")
+  )
