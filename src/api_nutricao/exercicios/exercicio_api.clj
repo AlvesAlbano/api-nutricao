@@ -6,7 +6,7 @@
 (def api-key "s5U2Ubl5YwolmRwIdThZnw==ZcIc4y1MQ4mmFTmT")
 
 (defn buscar-exercicio [nome-exercicio]
-  (:body (http/get api-url {:headers
+  :body (http/get api-url {:headers
                            {:X-Api-Key api-key}
-                     :query-params {:activity nome-exercicio}}))
+                     :query-params {:activity nome-exercicio}})
   )
