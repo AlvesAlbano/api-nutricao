@@ -1,11 +1,10 @@
 (ns api-nutricao.handler
-  (:require [compojure.core :refer :all]
+  (:require [api-nutricao.exercicios.exercicio-api :as exercicio-api]
+            [api-nutricao.nutricao.nutricao-api :as nutricao-api]
+            [compojure.core :refer :all]
             [compojure.route :as route]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]
-            [api-nutricao.exercicios.exercicio-api :as exercicio-api]
-            [api-nutricao.exercicios.nutricao-api :as nutricao-api]
-            [cheshire.core :as json]))
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
 (defroutes app-routes
            (GET "/exercicio/:nome-exercicio" [nome-exercicio]

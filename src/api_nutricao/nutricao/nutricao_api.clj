@@ -1,4 +1,4 @@
-(ns api-nutricao.exercicios.nutricao-api
+(ns api-nutricao.nutricao.nutricao-api
   (:require [clj-http.client :as client]
             [cheshire.core :as json]))
 
