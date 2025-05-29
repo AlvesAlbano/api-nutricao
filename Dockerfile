@@ -3,10 +3,7 @@ FROM clojure:lein-2.10.0 as builder
 
 WORKDIR /app
 
-# Copia os arquivos do projeto
-COPY project.clj .
-COPY src src
-COPY resources resources
+COPY . .
 
 # Baixa as dependências antecipadamente (melhora caching)
 RUN lein deps
