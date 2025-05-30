@@ -1,14 +1,29 @@
 (ns api-nutricao.handler
-  (:require [api-nutricao.exercicios.exercicio-api :as exercicio-api]
+  (:require [api-nutricao.exercicios.exercicio-controller :as exercicio-api]
+            [api-nutricao.exercicios.exercicio-repository :as exercicio-repository]
             [api-nutricao.nutricao.nutricao-api :as nutricao-api]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]])
+  )
 
 (defroutes app-routes
            (GET "/exercicio/:nome-exercicio" [nome-exercicio]
              (exercicio-api/buscar-exercicio nome-exercicio))
+
+           (GET "/calorias-perdidas" []
+             (exercicio-repository/listar-perdas)
+             )
+
+           (POST "/registrar-perda" request
+             (let [exercicio (:body request)]
+               (exercicio-api/registrar-perda exercicio)
+               {:status 201
+                :headers {"Content-Type" "application/json"}
+                :body {:mensagem "Perda calorica adicionado com sucesso!"}}
+               )
+             )
 
            (GET "/alimento/:nome" [nome]
              (nutricao-api/buscar-alimento-api nome))
