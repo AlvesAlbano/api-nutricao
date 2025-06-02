@@ -4,5 +4,4 @@
   (/ libras 2.205))
 
 (defn kilo-libras [kilo]
-  (* kilo 2.205)
-  )
+  (* kilo 2.205))

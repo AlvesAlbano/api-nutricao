@@ -2,6 +2,7 @@
   (:require [api-nutricao.exercicios.exercicio-controller :as exercicio-api]
             [api-nutricao.exercicios.exercicio-repository :as exercicio-repository]
             [api-nutricao.nutricao.nutricao-api :as nutricao-api]
+            [api-nutricao.usuario.usuario-controller :as usuario-controller]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
@@ -9,11 +10,18 @@
   )
 
 (defroutes app-routes
-           (GET "/exercicio/:nome-exercicio" [nome-exercicio]
-             (exercicio-api/buscar-exercicio nome-exercicio))
+           (GET "/exercicio" [activity weight duration]
+
+             (let [peso (Double/parseDouble weight)
+                   duracao (Double/parseDouble duration)]
+             (exercicio-api/buscar-exercicio activity peso duracao)))
 
            (GET "/calorias-perdidas" []
              (exercicio-repository/listar-perdas)
+             )
+
+           (GET "/usuario" []
+             (usuario-controller/get-usuario)
              )
 
            (POST "/registrar-perda" request
@@ -24,6 +32,14 @@
                 :body {:mensagem "Perda calorica adicionado com sucesso!"}}
                )
              )
+
+           (POST "/cadastrar-usuario" request
+             (let [usuario (:body request)]
+               (usuario-controller/cadastrar-usuario usuario)
+               {:status 201
+                :headers {"Content-Type" "application/json"}
+                :body {:mensagem "Usuario cadastrado com sucesso!"}}
+               ))
 
            (GET "/alimento/:nome" [nome]
              (nutricao-api/buscar-alimento-api nome))

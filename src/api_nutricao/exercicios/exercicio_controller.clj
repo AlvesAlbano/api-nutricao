@@ -9,8 +9,8 @@
 ; "total_calories": 354
 ; },
 
-(defn buscar-exercicio [nome-exercicio]
-  (exercicio-repository/buscar-exercicios nome-exercicio)
+(defn buscar-exercicio [nome-exercicio peso duracao]
+  (exercicio-repository/buscar-exercicios nome-exercicio peso duracao)
   )
 
 ;&weight=500&duration=180
