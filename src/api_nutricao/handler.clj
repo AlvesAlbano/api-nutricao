@@ -1,7 +1,9 @@
 (ns api-nutricao.handler
   (:require [api-nutricao.exercicios.exercicio-controller :as exercicio-api]
             [api-nutricao.exercicios.exercicio-repository :as exercicio-repository]
+            [api-nutricao.exercicios.util.conversor :as conversor]
             [api-nutricao.nutricao.nutricao-api :as nutricao-api]
+            [api-nutricao.traducao.traduzir-api :as traduzir]
             [api-nutricao.usuario.usuario-controller :as usuario-controller]
             [compojure.core :refer :all]
             [compojure.route :as route]
@@ -12,9 +14,10 @@
 (defroutes app-routes
            (GET "/exercicio" [activity weight duration]
 
-             (let [peso (Double/parseDouble weight)
+             (let [nome-exercicio (traduzir/portugues-ingles activity)
+                   peso (conversor/kilo-libras (Double/parseDouble weight))
                    duracao (Double/parseDouble duration)]
-             (exercicio-api/buscar-exercicio activity peso duracao)))
+             (exercicio-api/buscar-exercicio nome-exercicio peso duracao)))
 
            (GET "/calorias-perdidas" []
              (exercicio-repository/listar-perdas)

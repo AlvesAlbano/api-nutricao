@@ -1,7 +1,7 @@
 (ns api-nutricao.nutricao.nutricao-api
-  (:require [clj-http.client :as client]
+  (:require [api-nutricao.traducao.traduzir-api :as trad]
             [cheshire.core :as json]
-            [api-nutricao.traducao.traduzir-api :as trad]
+            [clj-http.client :as client]
             [clojure.string :as str]))
 
 (def api-key "wEs6WCnpgqM3QnNWYwQKBqzjch59uWB7Nye9VT0Q")

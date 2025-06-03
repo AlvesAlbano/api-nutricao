@@ -1,6 +1,6 @@
 (ns api-nutricao.core
-     (:require [api-nutricao.handler :refer [app]]
-               [ring.adapter.jetty :refer [run-jetty]])
+  (:require [api-nutricao.handler :refer [app]]
+            [ring.adapter.jetty :refer [run-jetty]])
      (:gen-class))
 
 (defn -main [& args]
