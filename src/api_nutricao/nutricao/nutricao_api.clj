@@ -29,10 +29,13 @@
      :headers {"Content-Type" "application/json"}
      :body alimentos-processados}))
 
-(def refeicoes-dia (atom []))
+(def refeicoes-dia (atom {:refeicoes [] :calorias-totais 0}))
 
 (defn adicionar-refeicao [refeicao]
-  (swap! refeicoes-dia conj refeicao))
+  (swap! refeicoes-dia
+         (fn [{:keys [refeicoes calorias-totais]}]
+           {:refeicoes (conj refeicoes refeicao)
+            :calorias-totais (+ calorias-totais (:calorias refeicao))})))
 
 (defn listar-refeicoes []
   {:status 200

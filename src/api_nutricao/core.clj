@@ -7,4 +7,5 @@
   (run-jetty app {:port 3000 :join? false})
   (println "http://localhost:3000/exercicio/skiing")
   (println "http://localhost:3000/refeicoes")
+  (println "http://localhost:3000/usuario")
   )
