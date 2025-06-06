@@ -8,44 +8,38 @@
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.json :refer [wrap-json-body wrap-json-response]])
-  )
+            [ring.middleware.json :refer [wrap-json-body wrap-json-response]]))
 
 (defroutes app-routes
            (GET "/exercicio" [activity weight duration]
-
              (let [nome-exercicio (traduzir/portugues-ingles activity)
                    peso (conversor/kilo-libras (Double/parseDouble weight))
                    duracao (Double/parseDouble duration)]
-             (exercicio-api/buscar-exercicio nome-exercicio peso duracao)))
+               (exercicio-api/buscar-exercicio nome-exercicio peso duracao)))
 
            (GET "/calorias-perdidas" []
-             (exercicio-repository/listar-perdas)
-             )
+             (exercicio-repository/listar-perdas))
 
            (GET "/usuario" []
-             (usuario-controller/get-usuario)
-             )
+             (usuario-controller/get-usuario))
 
            (POST "/registrar-perda" request
              (let [exercicio (:body request)]
                (exercicio-api/registrar-perda exercicio)
                {:status 201
                 :headers {"Content-Type" "application/json"}
-                :body {:mensagem "Perda calorica adicionado com sucesso!"}}
-               )
-             )
+                :body {:mensagem "Perda calórica adicionada com sucesso!"}}))
 
            (POST "/cadastrar-usuario" request
              (let [usuario (:body request)]
                (usuario-controller/cadastrar-usuario usuario)
                {:status 201
                 :headers {"Content-Type" "application/json"}
-                :body {:mensagem "Usuario cadastrado com sucesso!"}}
-               ))
+                :body {:mensagem "Usuário cadastrado com sucesso!"}}))
 
            (GET "/alimento/:nome" [nome]
-             (nutricao-api/buscar-alimento-api nome))
+             (do
+               (nutricao-api/buscar-alimento-api nome)))
 
            (GET "/refeicoes" []
              (nutricao-api/listar-refeicoes))

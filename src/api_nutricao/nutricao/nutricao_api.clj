@@ -27,15 +27,26 @@
                                     alimentos)]
     {:status 200
      :headers {"Content-Type" "application/json"}
-     :body alimentos-processados}))
+     :body (vec alimentos-processados)}))
 
-(def refeicoes-dia (atom {:refeicoes [] :calorias-totais 0}))
+(defn carregar-refeicoes []
+  (try
+    (let [conteudo (slurp "refeicoes.json")]
+      (json/parse-string conteudo true))
+    (catch Exception _
+      {:refeicoes [] :calorias-totais 0})))
+
+(def refeicoes-dia (atom (carregar-refeicoes)))
+
+(defn salvar-refeicoes! []
+  (spit "refeicoes.json" (json/generate-string @refeicoes-dia)))
 
 (defn adicionar-refeicao [refeicao]
   (swap! refeicoes-dia
          (fn [{:keys [refeicoes calorias-totais]}]
            {:refeicoes (conj refeicoes refeicao)
-            :calorias-totais (+ calorias-totais (:calorias refeicao))})))
+            :calorias-totais (+ calorias-totais (:calorias refeicao))}))
+  (salvar-refeicoes!))
 
 (defn listar-refeicoes []
   {:status 200
