@@ -14,6 +14,6 @@
   )
 
 ;&weight=500&duration=180
-(defn registrar-perda [exercicio]
-  (swap! data/lista-perda conj exercicio)
+(defn registrar-perda [novo-exercicio]
+  (swap! data/lista-perda conj novo-exercicio)
   )

@@ -44,9 +44,9 @@
            (GET "/refeicoes" []
              (nutricao-api/listar-refeicoes))
 
-           (POST "/refeicoes" request
+           (POST "/registrar-refeicao" request
              (let [refeicao (:body request)]
-               (nutricao-api/adicionar-refeicao refeicao)
+               (nutricao-api/registrar-ganho refeicao)
                {:status 201
                 :headers {"Content-Type" "application/json"}
                 :body {:mensagem "Refeição adicionada com sucesso!"}}))

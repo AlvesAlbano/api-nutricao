@@ -1,6 +1,7 @@
 (ns api-nutricao.nutricao.nutricao-api
   (:require [api-nutricao.traducao.traduzir-api :as trad]
             [cheshire.core :as json]
+            [api-nutricao.data.listas :as data]
             [clj-http.client :as client]
             [clojure.string :as str]))
 
@@ -29,26 +30,12 @@
      :headers {"Content-Type" "application/json"}
      :body (vec alimentos-processados)}))
 
-(defn carregar-refeicoes []
-  (try
-    (let [conteudo (slurp "refeicoes.json")]
-      (json/parse-string conteudo true))
-    (catch Exception _
-      {:refeicoes [] :calorias-totais 0})))
 
-(def refeicoes-dia (atom (carregar-refeicoes)))
-
-(defn salvar-refeicoes! []
-  (spit "refeicoes.json" (json/generate-string @refeicoes-dia)))
-
-(defn adicionar-refeicao [refeicao]
-  (swap! refeicoes-dia
-         (fn [{:keys [refeicoes calorias-totais]}]
-           {:refeicoes (conj refeicoes refeicao)
-            :calorias-totais (+ calorias-totais (:calorias refeicao))}))
-  (salvar-refeicoes!))
+(defn registrar-ganho [novas-refeicoes]
+  (swap! data/lista-refeicoes conj novas-refeicoes)
+  )
 
 (defn listar-refeicoes []
   {:status 200
    :headers {"Content-Type" "application/json"}
-   :body (json/generate-string @refeicoes-dia)})
+   :body (json/generate-string @data/lista-refeicoes)})
