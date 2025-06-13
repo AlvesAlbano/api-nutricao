@@ -7,9 +7,9 @@
 
 (defn retorna-primeiro-elemento [conteudo]
   (let [possiveis (get-in conteudo [:translations :possible-translations])]
-    (if (and (vector? possiveis) (seq possiveis))
+    (if (not (empty? possiveis))
       (first possiveis)
-      ""))) ; retorno seguro em caso de erro ou resposta vazia
+      "")))
 
 (defn portugues-ingles [frase]
   (try
